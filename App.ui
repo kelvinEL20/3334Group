@@ -50,7 +50,7 @@
    <widget class="QWidget" name="LoginPage" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>1024</x>
       <y>0</y>
       <width>1024</width>
       <height>751</height>
@@ -64,7 +64,7 @@
     <property name="inputMethodHints">
      <set>Qt::ImhNone</set>
     </property>
-    <widget class="QPushButton" name="btnLogin">
+    <widget class="QPushButton" name="btnLoginPageLogin">
      <property name="geometry">
       <rect>
        <x>231</x>
@@ -85,7 +85,7 @@
       <string>Login</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="btnReg">
+    <widget class="QPushButton" name="btnLoginPageReg">
      <property name="geometry">
       <rect>
        <x>550</x>
@@ -212,12 +212,204 @@
    <widget class="QWidget" name="RegPage" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>1024</x>
       <y>0</y>
       <width>1024</width>
       <height>751</height>
      </rect>
     </property>
+    <widget class="QPushButton" name="btnRegPageBack">
+     <property name="geometry">
+      <rect>
+       <x>548</x>
+       <y>530</y>
+       <width>241</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string>Back</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPageUsernameInput">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>240</y>
+       <width>541</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RegPageLabel_2">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>230</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Username:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RegPageLabel_1">
+     <property name="geometry">
+      <rect>
+       <x>388</x>
+       <y>80</y>
+       <width>251</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Register</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RegPageLabel_4">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>390</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Confirm:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPageConfirmPasswordInput">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>400</y>
+       <width>541</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnRegPageReg">
+     <property name="geometry">
+      <rect>
+       <x>229</x>
+       <y>530</y>
+       <width>241</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string>Register</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="RegPageLabel_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>310</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Password:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPagePasswordInput">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>320</y>
+       <width>541</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="AppPage" native="true">
     <property name="geometry">
@@ -233,10 +425,30 @@
       <family>Arial</family>
      </font>
     </property>
+    <widget class="QTabWidget" name="AppPageTab">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1024</width>
+       <height>768</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="AppPageGalleryTab">
+      <attribute name="title">
+       <string>Gallery</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="AppPageExchangeTab">
+      <attribute name="title">
+       <string>Exchange</string>
+      </attribute>
+     </widget>
+    </widget>
    </widget>
-   <zorder>RegPage</zorder>
-   <zorder>AppPage</zorder>
-   <zorder>LoginPage</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
