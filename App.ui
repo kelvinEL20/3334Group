@@ -50,7 +50,7 @@
    <widget class="QWidget" name="LoginPage" native="true">
     <property name="geometry">
      <rect>
-      <x>1024</x>
+      <x>0</x>
       <y>0</y>
       <width>1024</width>
       <height>751</height>
@@ -212,7 +212,7 @@
    <widget class="QWidget" name="RegPage" native="true">
     <property name="geometry">
      <rect>
-      <x>1024</x>
+      <x>0</x>
       <y>0</y>
       <width>1024</width>
       <height>751</height>
@@ -520,7 +520,7 @@
         <string>Sort by:</string>
        </property>
       </widget>
-      <widget class="Line" name="line">
+      <widget class="Line" name="GalleryLine">
        <property name="geometry">
         <rect>
          <x>511</x>
@@ -546,7 +546,7 @@
         <string>Display Area (Scaled):</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="GalleryArtworkLabel">
        <property name="geometry">
         <rect>
          <x>550</x>
@@ -578,9 +578,188 @@
       <attribute name="title">
        <string>Exchange</string>
       </attribute>
+      <widget class="QLabel" name="ExchangeLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>50</y>
+         <width>291</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Transfer ownership of</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ExchangeFileNameInput">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>130</y>
+         <width>391</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Artwork file name</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="ExchangeLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>200</y>
+         <width>41</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>to</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ExchangeUsernameInput">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>280</y>
+         <width>391</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Username</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ExchangeConfirmUsernameInput">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>350</y>
+         <width>391</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Confirm Username</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnExchangeConstructBlock">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>440</y>
+         <width>221</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Construct block</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnExchangeAppendToChain">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>550</y>
+         <width>221</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Append to chain</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="ExchangeLabel_3">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>50</y>
+         <width>191</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Preview block:</string>
+       </property>
+      </widget>
+      <widget class="Line" name="ExchangeLine">
+       <property name="geometry">
+        <rect>
+         <x>511</x>
+         <y>0</y>
+         <width>21</width>
+         <height>711</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QTextBrowser" name="ExchangePreviewBlockOutputTextArea">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>120</y>
+         <width>441</width>
+         <height>571</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
+   <zorder>AppPage</zorder>
+   <zorder>RegPage</zorder>
+   <zorder>LoginPage</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
