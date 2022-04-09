@@ -441,6 +441,138 @@
       <attribute name="title">
        <string>Gallery</string>
       </attribute>
+      <widget class="QListView" name="GalleryArtWrokList">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>70</y>
+         <width>441</width>
+         <height>541</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </widget>
+      <widget class="QLabel" name="GalleryLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>121</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>List of Artworks:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnGalleryShow">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>640</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Show</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="GallerySortTypeComboBox">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>640</y>
+         <width>91</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="btnGallerySort">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>640</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Sort by:</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>511</x>
+         <y>0</y>
+         <width>21</width>
+         <height>711</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="GalleryLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>20</y>
+         <width>171</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Display Area (Scaled):</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>130</y>
+         <width>451</width>
+         <height>451</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>The selected artwork will be displayed here</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="AppPageExchangeTab">
       <attribute name="title">
