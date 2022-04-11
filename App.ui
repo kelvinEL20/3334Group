@@ -218,42 +218,6 @@
       <height>751</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="btnRegPageBack">
-     <property name="geometry">
-      <rect>
-       <x>548</x>
-       <y>530</y>
-       <width>241</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string>Back</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="RegPageUsernameInput">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>240</y>
-       <width>541</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-    </widget>
     <widget class="QLabel" name="RegPageLabel_2">
      <property name="geometry">
       <rect>
@@ -311,10 +275,58 @@
       <string>Confirm:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="RegPageConfirmPasswordInput">
-     <property name="enabled">
-      <bool>true</bool>
+    <widget class="QLabel" name="RegPageLabel_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>310</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Password:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPageUsernameInput">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>240</y>
+       <width>541</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPagePasswordInput">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>320</y>
+       <width>541</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="RegPageConfirmPasswordInput">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -328,17 +340,8 @@
        <pointsize>20</pointsize>
       </font>
      </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
-     </property>
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
-     </property>
-     <property name="placeholderText">
-      <string/>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>false</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="btnRegPageReg">
@@ -362,12 +365,12 @@
       <string>Register</string>
      </property>
     </widget>
-    <widget class="QLabel" name="RegPageLabel_3">
+    <widget class="QPushButton" name="btnRegPageBack">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>310</y>
-       <width>151</width>
+       <x>548</x>
+       <y>530</y>
+       <width>241</width>
        <height>61</height>
       </rect>
      </property>
@@ -376,38 +379,11 @@
        <pointsize>20</pointsize>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="text">
-      <string>Password:</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="RegPagePasswordInput">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>320</y>
-       <width>541</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
-     </property>
-     <property name="echoMode">
-      <enum>QLineEdit::Password</enum>
-     </property>
-     <property name="placeholderText">
-      <string/>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>false</bool>
+      <string>Back</string>
      </property>
     </widget>
    </widget>

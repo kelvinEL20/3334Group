@@ -1,6 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Login import *
+from Reg import *
+from App import *
+from General import *
 
 class Ui_MainWindow(object):
+    currentUser = ""
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -80,19 +85,6 @@ class Ui_MainWindow(object):
         self.RegPage = QtWidgets.QWidget(self.centralwidget)
         self.RegPage.setGeometry(QtCore.QRect(0, 0, 1024, 751))
         self.RegPage.setObjectName("RegPage")
-        self.btnRegPageBack = QtWidgets.QPushButton(self.RegPage)
-        self.btnRegPageBack.setGeometry(QtCore.QRect(548, 530, 241, 61))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.btnRegPageBack.setFont(font)
-        self.btnRegPageBack.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnRegPageBack.setObjectName("btnRegPageBack")
-        self.RegPageUsernameInput = QtWidgets.QLineEdit(self.RegPage)
-        self.RegPageUsernameInput.setGeometry(QtCore.QRect(240, 240, 541, 41))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.RegPageUsernameInput.setFont(font)
-        self.RegPageUsernameInput.setObjectName("RegPageUsernameInput")
         self.RegPageLabel_2 = QtWidgets.QLabel(self.RegPage)
         self.RegPageLabel_2.setGeometry(QtCore.QRect(80, 230, 151, 61))
         font = QtGui.QFont()
@@ -112,16 +104,31 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.RegPageLabel_4.setFont(font)
         self.RegPageLabel_4.setObjectName("RegPageLabel_4")
+        self.RegPageLabel_3 = QtWidgets.QLabel(self.RegPage)
+        self.RegPageLabel_3.setGeometry(QtCore.QRect(80, 310, 151, 61))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.RegPageLabel_3.setFont(font)
+        self.RegPageLabel_3.setObjectName("RegPageLabel_3")
+        self.RegPageUsernameInput = QtWidgets.QLineEdit(self.RegPage)
+        self.RegPageUsernameInput.setGeometry(QtCore.QRect(240, 240, 541, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.RegPageUsernameInput.setFont(font)
+        self.RegPageUsernameInput.setObjectName("RegPageUsernameInput")
+        self.RegPagePasswordInput = QtWidgets.QLineEdit(self.RegPage)
+        self.RegPagePasswordInput.setGeometry(QtCore.QRect(240, 320, 541, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.RegPagePasswordInput.setFont(font)
+        self.RegPagePasswordInput.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.RegPagePasswordInput.setObjectName("RegPagePasswordInput")
         self.RegPageConfirmPasswordInput = QtWidgets.QLineEdit(self.RegPage)
-        self.RegPageConfirmPasswordInput.setEnabled(True)
         self.RegPageConfirmPasswordInput.setGeometry(QtCore.QRect(240, 400, 541, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.RegPageConfirmPasswordInput.setFont(font)
-        self.RegPageConfirmPasswordInput.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText|QtCore.Qt.ImhSensitiveData)
         self.RegPageConfirmPasswordInput.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.RegPageConfirmPasswordInput.setPlaceholderText("")
-        self.RegPageConfirmPasswordInput.setClearButtonEnabled(False)
         self.RegPageConfirmPasswordInput.setObjectName("RegPageConfirmPasswordInput")
         self.btnRegPageReg = QtWidgets.QPushButton(self.RegPage)
         self.btnRegPageReg.setGeometry(QtCore.QRect(229, 530, 241, 61))
@@ -130,23 +137,13 @@ class Ui_MainWindow(object):
         self.btnRegPageReg.setFont(font)
         self.btnRegPageReg.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnRegPageReg.setObjectName("btnRegPageReg")
-        self.RegPageLabel_3 = QtWidgets.QLabel(self.RegPage)
-        self.RegPageLabel_3.setGeometry(QtCore.QRect(80, 310, 151, 61))
+        self.btnRegPageBack = QtWidgets.QPushButton(self.RegPage)
+        self.btnRegPageBack.setGeometry(QtCore.QRect(548, 530, 241, 61))
         font = QtGui.QFont()
         font.setPointSize(20)
-        self.RegPageLabel_3.setFont(font)
-        self.RegPageLabel_3.setObjectName("RegPageLabel_3")
-        self.RegPagePasswordInput = QtWidgets.QLineEdit(self.RegPage)
-        self.RegPagePasswordInput.setEnabled(True)
-        self.RegPagePasswordInput.setGeometry(QtCore.QRect(240, 320, 541, 41))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.RegPagePasswordInput.setFont(font)
-        self.RegPagePasswordInput.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText|QtCore.Qt.ImhSensitiveData)
-        self.RegPagePasswordInput.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.RegPagePasswordInput.setPlaceholderText("")
-        self.RegPagePasswordInput.setClearButtonEnabled(False)
-        self.RegPagePasswordInput.setObjectName("RegPagePasswordInput")
+        self.btnRegPageBack.setFont(font)
+        self.btnRegPageBack.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnRegPageBack.setObjectName("btnRegPageBack")
         self.AppPage = QtWidgets.QWidget(self.centralwidget)
         self.AppPage.setGeometry(QtCore.QRect(0, 0, 1024, 751))
         font = QtGui.QFont()
@@ -289,12 +286,12 @@ class Ui_MainWindow(object):
         self.LoginPageLabel_2.setText(_translate("MainWindow", "Username:"))
         self.LoginPageLabel_3.setText(_translate("MainWindow", "Password:"))
         self.LoginPageLabel_1.setText(_translate("MainWindow", "Login Page"))
-        self.btnRegPageBack.setText(_translate("MainWindow", "Back"))
         self.RegPageLabel_2.setText(_translate("MainWindow", "Username:"))
         self.RegPageLabel_1.setText(_translate("MainWindow", "Register"))
         self.RegPageLabel_4.setText(_translate("MainWindow", "Confirm:"))
-        self.btnRegPageReg.setText(_translate("MainWindow", "Register"))
         self.RegPageLabel_3.setText(_translate("MainWindow", "Password:"))
+        self.btnRegPageReg.setText(_translate("MainWindow", "Register"))
+        self.btnRegPageBack.setText(_translate("MainWindow", "Back"))
         self.GalleryLabel_1.setText(_translate("MainWindow", "List of Artworks:"))
         self.btnGalleryShow.setText(_translate("MainWindow", "Show"))
         self.GallerySortTypeComboBox.setItemText(0, _translate("MainWindow", "Name"))
@@ -311,13 +308,20 @@ class Ui_MainWindow(object):
         self.btnExchangeAppendToChain.setText(_translate("MainWindow", "Append to chain"))
         self.ExchangeLabel_3.setText(_translate("MainWindow", "Preview block:"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageExchangeTab), _translate("MainWindow", "Exchange"))
-
+        
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
-    
+        
     # Functions    
     def loginClicked(self):
-        return
+        username = self.LoginPageUsernameInput.text()
+        password = self.LoginPagePasswordInput.text()
+        if username == "" or password == "":
+            showAlert("Columns cannot be empty")
+        elif len(username) > 20:
+            showAlert("Max length for username is 20")
+        else:
+            checkLogin(username, password)
     
     def loginPageRegClicked(self):
         self.clearAll()
@@ -326,7 +330,22 @@ class Ui_MainWindow(object):
         self.RegPage.setVisible(True)
     
     def regPageRegClicked(self):
-        return
+        username = self.RegPageUsernameInput.text()
+        password = self.RegPagePasswordInput.text()
+        confirmPassword = self.RegPageConfirmPasswordInput.text()
+        if username == "" or password == "" or confirmPassword == "":
+            showAlert("Columns cannot be empty")
+        elif len(username) > 20:
+            showAlert("Max length for username is 20")
+        elif password != confirmPassword:
+            showAlert("Confirm password does not match")
+        else:
+            if register(username, password):
+                self.clearAll()
+                self.AppPage.setVisible(False)
+                self.RegPage.setVisible(False)
+                self.LoginPage.setVisible(True)
+                showInfo("Successfully registered")
 
     def regPageBackClicked(self):
         self.clearAll()
@@ -346,7 +365,7 @@ class Ui_MainWindow(object):
         self.ExchangeUsernameInput.setText("")
         self.ExchangeConfirmUsernameInput.setText("")
         self.ExchangePreviewBlockOutputTextArea.setText("")
-        
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
