@@ -325,6 +325,7 @@ class Ui_MainWindow(object):
                 self.currentUser = username
                 self.LoginPage.setVisible(False)
                 self.RegPage.setVisible(False)
+                self.loadArtworkList()
                 self.AppPage.setVisible(True)
             else:
                 showAlert("Username or password incorrect")
@@ -345,6 +346,12 @@ class Ui_MainWindow(object):
             showAlert("Max length for username is 20")
         elif password != confirmPassword:
             showAlert("Confirm password does not match")
+        elif len(password) < 8:
+            showAlert("Password must be at least 8 in length")
+        elif username == password:
+            showAlert("Password must be different from username")
+        elif username.upper() == "NULL" or password.upper() == "NULL":
+            showAlert("Columns cannot be \"NULL\"")
         else:
             if register(username, password):
                 self.clearAll()
@@ -370,7 +377,11 @@ class Ui_MainWindow(object):
         self.ExchangeFileNameInput.setText("")
         self.ExchangeUsernameInput.setText("")
         self.ExchangeConfirmUsernameInput.setText("")
-        self.ExchangePreviewBlockOutputTextArea.setText("")
+        self.ExchangePreviewBlockOutputTextArea.setText("")\
+    
+    # Load list of artworks
+    def loadArtworkList(self):
+        return
 
 if __name__ == "__main__":
     import sys
