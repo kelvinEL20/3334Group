@@ -17,7 +17,7 @@ def register(username, password):
     username = str(username)
     password = str(password)
     salt = str(random.randint(1, 9999))
-    forHash = username + salt
+    forHash = password + salt
     hash = hashlib.sha256(forHash.encode('utf-8')).hexdigest()
     
     sql = "SELECT username FROM login_table WHERE username = %s"

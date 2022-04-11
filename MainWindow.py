@@ -321,8 +321,14 @@ class Ui_MainWindow(object):
         elif len(username) > 20:
             showAlert("Max length for username is 20")
         else:
-            checkLogin(username, password)
-    
+            if checkLogin(username, password):
+                self.currentUser = username
+                self.LoginPage.setVisible(False)
+                self.RegPage.setVisible(False)
+                self.AppPage.setVisible(True)
+            else:
+                showAlert("Username or password incorrect")
+            
     def loginPageRegClicked(self):
         self.clearAll()
         self.AppPage.setVisible(False)
