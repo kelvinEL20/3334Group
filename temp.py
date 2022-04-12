@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mysql.connector
 from Login import *
 from Reg import *
 from App import *
@@ -6,6 +7,7 @@ from General import *
 
 class Ui_MainWindow(object):
     currentUser = ""
+    artDict = {}
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -155,13 +157,6 @@ class Ui_MainWindow(object):
         self.AppPageTab.setObjectName("AppPageTab")
         self.AppPageGalleryTab = QtWidgets.QWidget()
         self.AppPageGalleryTab.setObjectName("AppPageGalleryTab")
-        self.GalleryArtWrokList = QtWidgets.QListView(self.AppPageGalleryTab)
-        self.GalleryArtWrokList.setGeometry(QtCore.QRect(20, 70, 441, 541))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(12)
-        self.GalleryArtWrokList.setFont(font)
-        self.GalleryArtWrokList.setObjectName("GalleryArtWrokList")
         self.GalleryLabel_1 = QtWidgets.QLabel(self.AppPageGalleryTab)
         self.GalleryLabel_1.setGeometry(QtCore.QRect(20, 20, 121, 31))
         self.GalleryLabel_1.setObjectName("GalleryLabel_1")
@@ -171,8 +166,9 @@ class Ui_MainWindow(object):
         self.btnGalleryShow.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.btnGalleryShow.setObjectName("btnGalleryShow")
         self.GallerySortTypeComboBox = QtWidgets.QComboBox(self.AppPageGalleryTab)
-        self.GallerySortTypeComboBox.setGeometry(QtCore.QRect(340, 640, 91, 51))
+        self.GallerySortTypeComboBox.setGeometry(QtCore.QRect(340, 640, 101, 51))
         self.GallerySortTypeComboBox.setObjectName("GallerySortTypeComboBox")
+        self.GallerySortTypeComboBox.addItem("")
         self.GallerySortTypeComboBox.addItem("")
         self.btnGallerySort = QtWidgets.QPushButton(self.AppPageGalleryTab)
         self.btnGallerySort.setGeometry(QtCore.QRect(220, 640, 121, 51))
@@ -195,6 +191,13 @@ class Ui_MainWindow(object):
         self.GalleryArtworkLabel.setScaledContents(True)
         self.GalleryArtworkLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.GalleryArtworkLabel.setObjectName("GalleryArtworkLabel")
+        self.GalleryArtWrokList = QtWidgets.QListWidget(self.AppPageGalleryTab)
+        self.GalleryArtWrokList.setGeometry(QtCore.QRect(20, 70, 441, 541))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(20)
+        self.GalleryArtWrokList.setFont(font)
+        self.GalleryArtWrokList.setObjectName("GalleryArtWrokList")
         self.AppPageTab.addTab(self.AppPageGalleryTab, "")
         self.AppPageExchangeTab = QtWidgets.QWidget()
         self.AppPageExchangeTab.setObjectName("AppPageExchangeTab")
@@ -295,6 +298,7 @@ class Ui_MainWindow(object):
         self.GalleryLabel_1.setText(_translate("MainWindow", "List of Artworks:"))
         self.btnGalleryShow.setText(_translate("MainWindow", "Show"))
         self.GallerySortTypeComboBox.setItemText(0, _translate("MainWindow", "Name"))
+        self.GallerySortTypeComboBox.setItemText(1, _translate("MainWindow", "Upload time"))
         self.btnGallerySort.setText(_translate("MainWindow", "Sort by:"))
         self.GalleryLabel_2.setText(_translate("MainWindow", "Display Area (Scaled):"))
         self.GalleryArtworkLabel.setText(_translate("MainWindow", "The selected artwork will be displayed here"))
@@ -321,8 +325,15 @@ class Ui_MainWindow(object):
         elif len(username) > 20:
             showAlert("Max length for username is 20")
         else:
-            checkLogin(username, password)
-    
+            if checkLogin(username, password):
+                self.currentUser = username
+                self.LoginPage.setVisible(False)
+                self.RegPage.setVisible(False)
+                self.loadArtworkList()
+                self.AppPage.setVisible(True)
+            else:
+                showAlert("Username or password incorrect")
+            
     def loginPageRegClicked(self):
         self.clearAll()
         self.AppPage.setVisible(False)
@@ -339,6 +350,12 @@ class Ui_MainWindow(object):
             showAlert("Max length for username is 20")
         elif password != confirmPassword:
             showAlert("Confirm password does not match")
+        elif len(password) < 8:
+            showAlert("Password must be at least 8 in length")
+        elif username == password:
+            showAlert("Password must be different from username")
+        elif username.upper() == "NULL" or password.upper() == "NULL":
+            showAlert("Columns cannot be \"NULL\"")
         else:
             if register(username, password):
                 self.clearAll()
@@ -346,7 +363,6 @@ class Ui_MainWindow(object):
                 self.RegPage.setVisible(False)
                 self.LoginPage.setVisible(True)
                 showInfo("Successfully registered")
-        
 
     def regPageBackClicked(self):
         self.clearAll()
@@ -365,7 +381,30 @@ class Ui_MainWindow(object):
         self.ExchangeFileNameInput.setText("")
         self.ExchangeUsernameInput.setText("")
         self.ExchangeConfirmUsernameInput.setText("")
-        self.ExchangePreviewBlockOutputTextArea.setText("")
+        self.ExchangePreviewBlockOutputTextArea.setText("")\
+    
+    # Load list of artworks
+    def loadArtworkList(self):
+        db = mysql.connector.connect(
+        host = "localhost",
+        user = "kelvin",
+        password = "kelvin",
+        database = "3334group"
+        )
+        cur = db.cursor()
+        sql = "SELECT * FROM artwork_table"
+        cur.execute(sql)
+        allArtworks = cur.fetchall()
+        for tup in allArtworks:
+            artName = tup[1]
+            artUrl = tup[3]
+            self.artDict[artName] = artUrl
+        initArtList = []
+        for key in self.artDict:
+            initArtList.append(key)
+
+        
+        db.close()
 
 
 if __name__ == "__main__":
