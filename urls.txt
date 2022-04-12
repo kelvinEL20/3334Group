@@ -1,2 +1,4 @@
-Cat: https://i.imgur.com/gtWsPu9.jpeg
+Cat: https://i.imgur.com/Jvh1OQm.jpeg
 Dog: https://i.imgur.com/gtWsPu9.jpeg
+Fox: https://i.imgur.com/yw7iAbc.jpeg
+Bird: https://i.imgur.com/trZxMHq.jpeg

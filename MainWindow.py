@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QImage, QPixmap
 import mysql.connector
+import requests
 from Login import *
 from Reg import *
 from App import *
@@ -8,6 +10,7 @@ from General import *
 class Ui_MainWindow(object):
     currentUser = ""
     artDict = {}
+    artList = []
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -166,7 +169,7 @@ class Ui_MainWindow(object):
         self.btnGalleryShow.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.btnGalleryShow.setObjectName("btnGalleryShow")
         self.GallerySortTypeComboBox = QtWidgets.QComboBox(self.AppPageGalleryTab)
-        self.GallerySortTypeComboBox.setGeometry(QtCore.QRect(340, 640, 101, 51))
+        self.GallerySortTypeComboBox.setGeometry(QtCore.QRect(340, 640, 131, 51))
         self.GallerySortTypeComboBox.setObjectName("GallerySortTypeComboBox")
         self.GallerySortTypeComboBox.addItem("")
         self.GallerySortTypeComboBox.addItem("")
@@ -175,7 +178,7 @@ class Ui_MainWindow(object):
         self.btnGallerySort.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnGallerySort.setObjectName("btnGallerySort")
         self.GalleryLine = QtWidgets.QFrame(self.AppPageGalleryTab)
-        self.GalleryLine.setGeometry(QtCore.QRect(511, 0, 21, 711))
+        self.GalleryLine.setGeometry(QtCore.QRect(511, 0, 21, 601))
         self.GalleryLine.setFrameShape(QtWidgets.QFrame.VLine)
         self.GalleryLine.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.GalleryLine.setObjectName("GalleryLine")
@@ -198,6 +201,18 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.GalleryArtWrokList.setFont(font)
         self.GalleryArtWrokList.setObjectName("GalleryArtWrokList")
+        self.btnLogout = QtWidgets.QPushButton(self.AppPageGalleryTab)
+        self.btnLogout.setGeometry(QtCore.QRect(680, 630, 191, 71))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnLogout.setFont(font)
+        self.btnLogout.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnLogout.setObjectName("btnLogout")
+        self.GalleryLine_2 = QtWidgets.QFrame(self.AppPageGalleryTab)
+        self.GalleryLine_2.setGeometry(QtCore.QRect(520, 590, 501, 21))
+        self.GalleryLine_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.GalleryLine_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.GalleryLine_2.setObjectName("GalleryLine_2")
         self.AppPageTab.addTab(self.AppPageGalleryTab, "")
         self.AppPageExchangeTab = QtWidgets.QWidget()
         self.AppPageExchangeTab.setObjectName("AppPageExchangeTab")
@@ -261,6 +276,69 @@ class Ui_MainWindow(object):
         self.ExchangePreviewBlockOutputTextArea.setGeometry(QtCore.QRect(550, 120, 441, 571))
         self.ExchangePreviewBlockOutputTextArea.setObjectName("ExchangePreviewBlockOutputTextArea")
         self.AppPageTab.addTab(self.AppPageExchangeTab, "")
+        self.AppPageUploadTab = QtWidgets.QWidget()
+        self.AppPageUploadTab.setObjectName("AppPageUploadTab")
+        self.UploadLabel_1 = QtWidgets.QLabel(self.AppPageUploadTab)
+        self.UploadLabel_1.setGeometry(QtCore.QRect(0, 40, 1011, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.UploadLabel_1.setFont(font)
+        self.UploadLabel_1.setAlignment(QtCore.Qt.AlignCenter)
+        self.UploadLabel_1.setObjectName("UploadLabel_1")
+        self.UploadLabel_2 = QtWidgets.QLabel(self.AppPageUploadTab)
+        self.UploadLabel_2.setGeometry(QtCore.QRect(20, 130, 221, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.UploadLabel_2.setFont(font)
+        self.UploadLabel_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.UploadLabel_2.setObjectName("UploadLabel_2")
+        self.UploadLine = QtWidgets.QFrame(self.AppPageUploadTab)
+        self.UploadLine.setGeometry(QtCore.QRect(0, 90, 1021, 21))
+        self.UploadLine.setFrameShape(QtWidgets.QFrame.HLine)
+        self.UploadLine.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.UploadLine.setObjectName("UploadLine")
+        self.UploadLabel_3 = QtWidgets.QLabel(self.AppPageUploadTab)
+        self.UploadLabel_3.setGeometry(QtCore.QRect(20, 200, 221, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.UploadLabel_3.setFont(font)
+        self.UploadLabel_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.UploadLabel_3.setObjectName("UploadLabel_3")
+        self.UploadArtworkPreviewLabel = QtWidgets.QLabel(self.AppPageUploadTab)
+        self.UploadArtworkPreviewLabel.setGeometry(QtCore.QRect(480, 250, 451, 451))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.UploadArtworkPreviewLabel.setFont(font)
+        self.UploadArtworkPreviewLabel.setTextFormat(QtCore.Qt.PlainText)
+        self.UploadArtworkPreviewLabel.setScaledContents(True)
+        self.UploadArtworkPreviewLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.UploadArtworkPreviewLabel.setObjectName("UploadArtworkPreviewLabel")
+        self.UploadArtworkNameInput = QtWidgets.QLineEdit(self.AppPageUploadTab)
+        self.UploadArtworkNameInput.setGeometry(QtCore.QRect(240, 130, 741, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.UploadArtworkNameInput.setFont(font)
+        self.UploadArtworkNameInput.setObjectName("UploadArtworkNameInput")
+        self.UploadArtworkUrlInput = QtWidgets.QLineEdit(self.AppPageUploadTab)
+        self.UploadArtworkUrlInput.setGeometry(QtCore.QRect(240, 200, 741, 41))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.UploadArtworkUrlInput.setFont(font)
+        self.UploadArtworkUrlInput.setObjectName("UploadArtworkUrlInput")
+        self.btnUploadPreview = QtWidgets.QPushButton(self.AppPageUploadTab)
+        self.btnUploadPreview.setGeometry(QtCore.QRect(110, 360, 161, 61))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnUploadPreview.setFont(font)
+        self.btnUploadPreview.setObjectName("btnUploadPreview")
+        self.btnUploadUpload = QtWidgets.QPushButton(self.AppPageUploadTab)
+        self.btnUploadUpload.setEnabled(False)
+        self.btnUploadUpload.setGeometry(QtCore.QRect(110, 490, 161, 61))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnUploadUpload.setFont(font)
+        self.btnUploadUpload.setObjectName("btnUploadUpload")
+        self.AppPageTab.addTab(self.AppPageUploadTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
         self.LoginPage.raise_()
@@ -283,6 +361,7 @@ class Ui_MainWindow(object):
         
         self.btnGalleryShow.clicked.connect(self.galleryShowClicked)
         self.btnGallerySort.clicked.connect(self.gallerySortClicked)
+        self.btnLogout.clicked.connect(self.logoutClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -301,13 +380,14 @@ class Ui_MainWindow(object):
         self.GalleryLabel_1.setText(_translate("MainWindow", "List of Artworks:"))
         self.btnGalleryShow.setText(_translate("MainWindow", "Show"))
         self.GallerySortTypeComboBox.setItemText(0, _translate("MainWindow", "Name"))
-        self.GallerySortTypeComboBox.setItemText(1, _translate("MainWindow", "Upload time"))
-        self.btnGallerySort.setText(_translate("MainWindow", "Sort by:"))
+        self.GallerySortTypeComboBox.setItemText(1, _translate("MainWindow", "New"))
+        self.btnGallerySort.setText(_translate("MainWindow", "Sort by"))
         self.GalleryLabel_2.setText(_translate("MainWindow", "Display Area (Scaled):"))
         self.GalleryArtworkLabel.setText(_translate("MainWindow", "The selected artwork will be displayed here"))
+        self.btnLogout.setText(_translate("MainWindow", "Logout"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageGalleryTab), _translate("MainWindow", "Gallery"))
         self.ExchangeLabel_1.setText(_translate("MainWindow", "Transfer ownership of"))
-        self.ExchangeFileNameInput.setPlaceholderText(_translate("MainWindow", "Artwork file name"))
+        self.ExchangeFileNameInput.setPlaceholderText(_translate("MainWindow", "Artwork name"))
         self.ExchangeLabel_2.setText(_translate("MainWindow", "to"))
         self.ExchangeUsernameInput.setPlaceholderText(_translate("MainWindow", "Username"))
         self.ExchangeConfirmUsernameInput.setPlaceholderText(_translate("MainWindow", "Confirm Username"))
@@ -315,6 +395,15 @@ class Ui_MainWindow(object):
         self.btnExchangeAppendToChain.setText(_translate("MainWindow", "Append to chain"))
         self.ExchangeLabel_3.setText(_translate("MainWindow", "Preview block:"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageExchangeTab), _translate("MainWindow", "Exchange"))
+        self.UploadLabel_1.setText(_translate("MainWindow", "Upload your artwork here"))
+        self.UploadLabel_2.setText(_translate("MainWindow", "Name of Artwork:"))
+        self.UploadLabel_3.setText(_translate("MainWindow", "URL of Artwork:"))
+        self.UploadArtworkPreviewLabel.setText(_translate("MainWindow", "The selected artwork will be displayed here (scaled)"))
+        self.UploadArtworkNameInput.setPlaceholderText(_translate("MainWindow", "At most 100 characters"))
+        self.UploadArtworkUrlInput.setPlaceholderText(_translate("MainWindow", "Supports .jpg, .jpeg and .png (imgur.com is suggested)"))
+        self.btnUploadPreview.setText(_translate("MainWindow", "Preview"))
+        self.btnUploadUpload.setText(_translate("MainWindow", "Upload"))
+        self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageUploadTab), _translate("MainWindow", "Upload"))
         
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
@@ -380,11 +469,27 @@ class Ui_MainWindow(object):
         self.RegPageUsernameInput.setText("")
         self.RegPagePasswordInput.setText("")
         self.RegPageConfirmPasswordInput.setText("")
-        self.GalleryArtworkLabel.clear()
+        self.GalleryArtWrokList.clear()
+        self.GalleryArtworkLabel.setText("The selected artwork will be displayed here")
+        self.GallerySortTypeComboBox.setCurrentText("Name")
         self.ExchangeFileNameInput.setText("")
         self.ExchangeUsernameInput.setText("")
         self.ExchangeConfirmUsernameInput.setText("")
-        self.ExchangePreviewBlockOutputTextArea.setText("")\
+        self.ExchangePreviewBlockOutputTextArea.setText("")
+        self.btnExchangeConstructBlock.setEnabled(True)
+        self.btnExchangeAppendToChain.setEnabled(False)
+        self.UploadArtworkNameInput.setText("")
+        self.UploadArtworkUrlInput.setText("")
+        self.btnUploadPreview.setEnabled(True)
+        self.btnUploadUpload.setEnabled(False)
+        self.UploadArtworkPreviewLabel.setText("The selected artwork will be displayed here (scaled)")
+    
+    def logoutClicked(self):
+        self.currentUser = ""
+        self.clearAll()
+        self.AppPage.setVisible(False)
+        self.RegPage.setVisible(False)
+        self.LoginPage.setVisible(True)
     
     # Load list of artworks
     def loadArtworkList(self):
@@ -398,24 +503,56 @@ class Ui_MainWindow(object):
         sql = "SELECT * FROM artwork_table"
         cur.execute(sql)
         allArtworks = cur.fetchall()
+        self.artDict.clear()
+        self.artList.clear()
         for tup in allArtworks:
             artName = tup[1]
             artUrl = tup[3]
             self.artDict[artName] = artUrl
-        initArtList = []
         for key in self.artDict:
-            initArtList.append(key)
-        self.GalleryArtWrokList.addItems(initArtList)
+            self.artList.append(key)
+        self.GalleryArtWrokList.addItems(self.artList)
         db.close()
     
     # Show button in gallery clicked
     def galleryShowClicked(self):
-        return
-
+        selectedRow = self.GalleryArtWrokList.currentRow()
+        selectedArt = self.artList[selectedRow]
+        if selectedArt in self.artDict:
+            url = self.artDict[selectedArt]
+        else:
+            showAlert("Image lost")
+        image = QImage()
+        image.loadFromData(requests.get(url).content)
+        self.GalleryArtworkLabel.setPixmap(QPixmap(image))
+        
     # Sort button in gallery clicked
     def gallerySortClicked(self):
-        return
-    
+        db = mysql.connector.connect(
+        host = "localhost",
+        user = "kelvin",
+        password = "kelvin",
+        database = "3334group"
+        )
+        cur = db.cursor()
+        if self.GallerySortTypeComboBox.currentText() == "New":
+            sql = "SELECT * FROM artwork_table ORDER BY upload_datetime DESC"
+        elif self.GallerySortTypeComboBox.currentText() == "Name":
+            sql = "SELECT * FROM artwork_table ORDER BY artwork_name"
+        cur.execute(sql)
+        allArtworks = cur.fetchall()
+        self.artDict.clear()
+        self.artList.clear()
+        for tup in allArtworks:
+            artName = tup[1]
+            artUrl = tup[3]
+            self.artDict[artName] = artUrl
+        for key in self.artDict:
+            self.artList.append(key)
+        self.GalleryArtWrokList.clear()
+        self.GalleryArtWrokList.addItems(self.artList)
+        db.close()
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
