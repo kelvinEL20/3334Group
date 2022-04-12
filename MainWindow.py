@@ -362,6 +362,8 @@ class Ui_MainWindow(object):
         self.btnGalleryShow.clicked.connect(self.galleryShowClicked)
         self.btnGallerySort.clicked.connect(self.gallerySortClicked)
         self.btnLogout.clicked.connect(self.logoutClicked)
+        
+        self.btnUploadPreview.clicked.connect(self.uploadPreviewClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -552,6 +554,10 @@ class Ui_MainWindow(object):
         self.GalleryArtWrokList.clear()
         self.GalleryArtWrokList.addItems(self.artList)
         db.close()
+    
+    def uploadPreviewClicked(self):
+        artworkName = self.UploadArtworkNameInput.text()
+        artworkUrl = self.UploadArtworkUrlInput.text()
 
 if __name__ == "__main__":
     import sys
