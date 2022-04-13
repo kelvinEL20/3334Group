@@ -48,10 +48,34 @@ def uploadToChain_Own(user, artName, artUrl):
         prevHash = ""
         nonce = 1
     else:
-        prevHash = latestBlock[0][1]
+        prevHash = latestBlock[0][8]
         nonce = int(latestBlock[0][0]) + 1
     db.close()
     
+    # Get salt for key
+    sign = genSign(user, nonce)
+    
+    # Calculate hash for current block
+    
+
+# Generate sign from user name and nonce
+def genSign(user, nonce):
+    db = mysql.connector.connect(
+    host = "localhost",
+    user = "kelvin",
+    password = "kelvin",
+    database = "3334group"
+    )
+    cur = db.cursor()
+    sql = "SELECT salt FROM login_table WHERE username = %s"
+    val = (user, )
+    cur.execute(sql, val)
+    salt = str(cur.fetchall()[0][0])
+    key = user + salt
+    forSign = key + str(nonce)
+    db.close()
+    return hashlib.sha256(forSign.encode('utf-8')).hexdigest()
+
 # For testing
 if __name__ == "__main__":
     uploadToChain_Own("user", "Fish", "https://i.imgur.com/EjOJYmu.jpeg")
