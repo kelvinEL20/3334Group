@@ -2,3 +2,5 @@ Cat: https://i.imgur.com/Jvh1OQm.jpeg
 Dog: https://i.imgur.com/gtWsPu9.jpeg
 Fox: https://i.imgur.com/yw7iAbc.jpeg
 Bird: https://i.imgur.com/trZxMHq.jpeg
+Fish: https://i.imgur.com/EjOJYmu.jpeg
+Sheep: https://i.imgur.com/NcPA6cG.jpeg

@@ -275,6 +275,13 @@ class Ui_MainWindow(object):
         self.ExchangePreviewBlockOutputTextArea = QtWidgets.QTextBrowser(self.AppPageExchangeTab)
         self.ExchangePreviewBlockOutputTextArea.setGeometry(QtCore.QRect(550, 120, 441, 571))
         self.ExchangePreviewBlockOutputTextArea.setObjectName("ExchangePreviewBlockOutputTextArea")
+        self.btnExchangeClear = QtWidgets.QPushButton(self.AppPageExchangeTab)
+        self.btnExchangeClear.setGeometry(QtCore.QRect(370, 650, 131, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnExchangeClear.setFont(font)
+        self.btnExchangeClear.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnExchangeClear.setObjectName("btnExchangeClear")
         self.AppPageTab.addTab(self.AppPageExchangeTab, "")
         self.AppPageUploadTab = QtWidgets.QWidget()
         self.AppPageUploadTab.setObjectName("AppPageUploadTab")
@@ -330,6 +337,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(20)
         self.btnUploadPreview.setFont(font)
+        self.btnUploadPreview.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnUploadPreview.setObjectName("btnUploadPreview")
         self.btnUploadUpload = QtWidgets.QPushButton(self.AppPageUploadTab)
         self.btnUploadUpload.setEnabled(False)
@@ -337,8 +345,40 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(20)
         self.btnUploadUpload.setFont(font)
+        self.btnUploadUpload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnUploadUpload.setObjectName("btnUploadUpload")
+        self.btnUploadClear = QtWidgets.QPushButton(self.AppPageUploadTab)
+        self.btnUploadClear.setEnabled(True)
+        self.btnUploadClear.setGeometry(QtCore.QRect(110, 620, 161, 61))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnUploadClear.setFont(font)
+        self.btnUploadClear.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnUploadClear.setObjectName("btnUploadClear")
         self.AppPageTab.addTab(self.AppPageUploadTab, "")
+        self.AppPageInventoryTab = QtWidgets.QWidget()
+        self.AppPageInventoryTab.setObjectName("AppPageInventoryTab")
+        self.InventoryLabel_1 = QtWidgets.QLabel(self.AppPageInventoryTab)
+        self.InventoryLabel_1.setGeometry(QtCore.QRect(70, 170, 241, 101))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.InventoryLabel_1.setFont(font)
+        self.InventoryLabel_1.setAlignment(QtCore.Qt.AlignCenter)
+        self.InventoryLabel_1.setObjectName("InventoryLabel_1")
+        self.InventoryTextOutput = QtWidgets.QTextBrowser(self.AppPageInventoryTab)
+        self.InventoryTextOutput.setGeometry(QtCore.QRect(360, 30, 621, 651))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.InventoryTextOutput.setFont(font)
+        self.InventoryTextOutput.setObjectName("InventoryTextOutput")
+        self.pushButton = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.pushButton.setGeometry(QtCore.QRect(110, 430, 161, 101))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.pushButton.setFont(font)
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButton.setObjectName("pushButton")
+        self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
         self.LoginPage.raise_()
@@ -364,6 +404,8 @@ class Ui_MainWindow(object):
         self.btnLogout.clicked.connect(self.logoutClicked)
         
         self.btnUploadPreview.clicked.connect(self.uploadPreviewClicked)
+        self.btnUploadClear.clicked.connect(self.uploadClearClicked)
+        self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -396,16 +438,26 @@ class Ui_MainWindow(object):
         self.btnExchangeConstructBlock.setText(_translate("MainWindow", "Construct block"))
         self.btnExchangeAppendToChain.setText(_translate("MainWindow", "Append to chain"))
         self.ExchangeLabel_3.setText(_translate("MainWindow", "Preview block:"))
+        self.btnExchangeClear.setText(_translate("MainWindow", "Clear"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageExchangeTab), _translate("MainWindow", "Exchange"))
         self.UploadLabel_1.setText(_translate("MainWindow", "Upload your artwork here"))
         self.UploadLabel_2.setText(_translate("MainWindow", "Name of Artwork:"))
         self.UploadLabel_3.setText(_translate("MainWindow", "URL of Artwork:"))
         self.UploadArtworkPreviewLabel.setText(_translate("MainWindow", "The selected artwork will be displayed here (scaled)"))
-        self.UploadArtworkNameInput.setPlaceholderText(_translate("MainWindow", "At most 100 characters"))
+        self.UploadArtworkNameInput.setPlaceholderText(_translate("MainWindow", "At most 50 characters"))
         self.UploadArtworkUrlInput.setPlaceholderText(_translate("MainWindow", "Supports .jpg, .jpeg and .png (imgur.com is suggested)"))
         self.btnUploadPreview.setText(_translate("MainWindow", "Preview"))
         self.btnUploadUpload.setText(_translate("MainWindow", "Upload"))
+        self.btnUploadClear.setText(_translate("MainWindow", "Clear"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageUploadTab), _translate("MainWindow", "Upload"))
+        self.InventoryLabel_1.setText(_translate("MainWindow", "My artworks:"))
+        self.InventoryTextOutput.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Arial\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.pushButton.setText(_translate("MainWindow", "Update"))
+        self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
         
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
@@ -450,6 +502,8 @@ class Ui_MainWindow(object):
             showAlert("Password must be different from username")
         elif username.upper() == "NULL" or password.upper() == "NULL":
             showAlert("Columns cannot be \"NULL\"")
+        elif " " in username:
+            showAlert("Please don't use space characters in the name")
         else:
             if register(username, password):
                 self.clearAll()
@@ -485,6 +539,7 @@ class Ui_MainWindow(object):
         self.btnUploadPreview.setEnabled(True)
         self.btnUploadUpload.setEnabled(False)
         self.UploadArtworkPreviewLabel.setText("The selected artwork will be displayed here (scaled)")
+        self.InventoryTextOutput.setText("")
     
     def logoutClicked(self):
         self.currentUser = ""
@@ -525,8 +580,11 @@ class Ui_MainWindow(object):
         else:
             showAlert("Image lost")
         image = QImage()
-        image.loadFromData(requests.get(url).content)
-        self.GalleryArtworkLabel.setPixmap(QPixmap(image))
+        try:
+            image.loadFromData(requests.get(url).content)
+            self.GalleryArtworkLabel.setPixmap(QPixmap(image))
+        except:
+            showAlert("Url is broken, failed to load image")
         
     # Sort button in gallery clicked
     def gallerySortClicked(self):
@@ -558,6 +616,63 @@ class Ui_MainWindow(object):
     def uploadPreviewClicked(self):
         artworkName = self.UploadArtworkNameInput.text()
         artworkUrl = self.UploadArtworkUrlInput.text()
+        if artworkName == "" or artworkUrl == "":
+            showAlert("Columns cannot be empty")
+        elif len(artworkName) > 50:
+            showAlert("Name should not exist 50 characters")
+        elif not (artworkUrl.endswith(".jpg") or artworkUrl.endswith(".jpeg") or artworkUrl.endswith(".png")):
+            showAlert("Please upload supported file types only")
+        elif " " in artworkName or " " in artworkUrl:
+            showAlert("Please do not use space characters in the name or url")
+        else: # Check if name or url alreadt exists in database
+            db = mysql.connector.connect(
+            host = "localhost",
+            user = "kelvin",
+            password = "kelvin",
+            database = "3334group"
+            )
+            cur = db.cursor()
+            sql = "SELECT * FROM artwork_table"
+            cur.execute(sql)
+            allArtworks = cur.fetchall()
+            nameList = []
+            urlList = []
+            for tup in allArtworks:
+                nameList.append(tup[1])
+                urlList.append(tup[3])
+            if artworkName in nameList or artworkUrl in urlList:
+                showAlert("Artwork already exsit in database")
+            else: # Show in Preview label
+                image = QImage()
+                try:
+                    image.loadFromData(requests.get(artworkUrl).content)
+                    self.UploadArtworkPreviewLabel.setPixmap(QPixmap(image))
+                    self.btnUploadPreview.setEnabled(False)
+                    self.btnUploadUpload.setEnabled(True)
+                    self.UploadArtworkNameInput.setEnabled(False)
+                    self.UploadArtworkUrlInput.setEnabled(False)
+                except:
+                    showAlert("Failed to get image from url")
+            db.close()
+    
+    def uploadClearClicked(self):
+        self.UploadArtworkNameInput.setText("")
+        self.UploadArtworkUrlInput.setText("")
+        self.btnUploadPreview.setEnabled(True)
+        self.btnUploadUpload.setEnabled(False)
+        self.UploadArtworkNameInput.setEnabled(True)
+        self.UploadArtworkUrlInput.setEnabled(True)
+        self.UploadArtworkPreviewLabel.setText("The selected artwork will be displayed here (scaled)")
+        
+    def uploadUploadClicked(self):
+        artworkName = self.UploadArtworkNameInput.text()
+        artworkUrl = self.UploadArtworkUrlInput.text()
+        uploadToArtworkListTable(artworkName, artworkUrl)
+        uploadToChain_Own(self.currentUser, artworkName, artworkUrl)
+        self.uploadClearClicked()
+        self.GalleryArtWrokList.clear()
+        self.loadArtworkList()
+        showInfo("Artwork uploaded")
 
 if __name__ == "__main__":
     import sys
