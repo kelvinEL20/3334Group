@@ -418,6 +418,8 @@ class Ui_MainWindow(object):
         self.btnInventoryUpdate.clicked.connect(self.inventoryUpdateClicked)
         self.btnInventoryDownload.clicked.connect(self.inventoryDownloadClicked)
 
+        self.btnExchangeClear.clicked.connect(self.exchangeClearClicked)
+        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -705,6 +707,14 @@ class Ui_MainWindow(object):
             showInfo("Download succeed")
         except:
             showAlert("Failed to download from chain")
+            
+    def exchangeClearClicked(self):
+        self.ExchangeFileNameInput.setText("")
+        self.ExchangeUsernameInput.setText("")
+        self.ExchangeConfirmUsernameInput.setText("")
+        self.btnExchangeConstructBlock.setEnabled(True)
+        self.btnExchangeAppendToChain.setEnabled(False)
+        self.ExchangePreviewBlockOutputTextArea.setText("")
 
 if __name__ == "__main__":
     import sys
