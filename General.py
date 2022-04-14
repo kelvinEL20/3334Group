@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets  import QMessageBox
+import hashlib
 
 def showAlert(msg):
     alert = QMessageBox()
@@ -13,3 +14,11 @@ def showInfo(msg):
     info.setText(str(msg))
     info.setWindowTitle("Information")
     info.exec_()
+
+# Verify hash of current block
+def isCurrentHashCorrect(tup):
+    strForCheck = ""
+    for i in range(9):
+        strForCheck += str(tup[i])
+    hashOut = hashlib.sha256(strForCheck.encode('utf-8')).hexdigest()
+    return hashOut.startswith("000")

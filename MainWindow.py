@@ -6,6 +6,7 @@ from Login import *
 from Reg import *
 from App import *
 from General import *
+from Inventory import *
 
 class Ui_MainWindow(object):
     currentUser = ""
@@ -371,13 +372,13 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.InventoryTextOutput.setFont(font)
         self.InventoryTextOutput.setObjectName("InventoryTextOutput")
-        self.pushButton = QtWidgets.QPushButton(self.AppPageInventoryTab)
-        self.pushButton.setGeometry(QtCore.QRect(110, 430, 161, 101))
+        self.btnInventoryUpdate = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.btnInventoryUpdate.setGeometry(QtCore.QRect(110, 430, 161, 101))
         font = QtGui.QFont()
         font.setPointSize(20)
-        self.pushButton.setFont(font)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton.setObjectName("pushButton")
+        self.btnInventoryUpdate.setFont(font)
+        self.btnInventoryUpdate.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnInventoryUpdate.setObjectName("btnInventoryUpdate")
         self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
@@ -406,6 +407,8 @@ class Ui_MainWindow(object):
         self.btnUploadPreview.clicked.connect(self.uploadPreviewClicked)
         self.btnUploadClear.clicked.connect(self.uploadClearClicked)
         self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
+        
+        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdataClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -456,9 +459,9 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Arial\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.pushButton.setText(_translate("MainWindow", "Update"))
+        self.btnInventoryUpdate.setText(_translate("MainWindow", "Update"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
-        
+
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
         
@@ -683,6 +686,9 @@ class Ui_MainWindow(object):
         self.GalleryArtWrokList.clear()
         self.loadArtworkList()
         showInfo("Artwork uploaded")
+    
+    def inventoryUpdataClicked(self):
+        self.InventoryTextOutput.setText(getOwnedArtworks(self.currentUser))
 
 if __name__ == "__main__":
     import sys

@@ -1,4 +1,3 @@
-from cgi import print_environ_usage
 import mysql.connector
 import hashlib
 import requests
@@ -8,6 +7,7 @@ import random
 from datetime import datetime
 from PIL import Image
 from io import BytesIO
+from General import *
 
 # Upload artwork details to artwork_table
 def uploadToArtworkListTable(artName, artUrl):
@@ -60,6 +60,27 @@ def uploadToChain_Own(userName, artName, artUrl):
     # Calculate hash for curremt_hash col of current block
     currentHash = calHash(nonce, prevHash, userName, sign, artName, artHash, "", userName)
     
+    # Check existing chain
+    db = mysql.connector.connect(
+    host = "localhost",
+    user = "kelvin",
+    password = "kelvin",
+    database = "3334group"
+    )
+    cur = db.cursor()
+    sql = "SELECT * FROM the_chain ORDER BY nonce"
+    cur.execute(sql)
+    chainContent = cur.fetchall()
+    nonce = 1
+    for tup in chainContent:
+        if nonce > 1 and tup[1] != lastHash:
+            showAlert("Error on current chain (Blocks not connected)")
+        if not isCurrentHashCorrect(tup):
+            showAlert("Invalid hash on block number:" + str(nonce))
+        lastHash = tup[8]
+        nonce += 1
+    db.close()
+    
     db = mysql.connector.connect(
     host = "localhost",
     user = "kelvin",
@@ -96,14 +117,10 @@ def genSign(user, nonce):
 def calHash(nonce, prevHash, userName, sign, artName, bas64Hash, fromTo, owner):
     nonce = str(nonce)
     content = nonce + prevHash + userName + sign + artName + bas64Hash + fromTo + owner
-    hashStr = ""
+    hashStr = content
     allChar = string.ascii_letters + string.digits
     while not hashStr.startswith("000"):
         ans = ''.join(random.choice(allChar) for i in range(64))
-        hashStr = hashStr + ans
+        hashStr = content + ans
         hashStr = hashlib.sha256(hashStr.encode('utf-8')).hexdigest()
     return ans
-
-# For testing
-if __name__ == "__main__":
-    uploadToChain_Own("user", "Fish", "https://i.imgur.com/EjOJYmu.jpeg")

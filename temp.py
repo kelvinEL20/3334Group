@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QImage, QPixmap
 import mysql.connector
 import requests
-from datetime import datetime
 from Login import *
 from Reg import *
 from App import *
@@ -372,13 +371,13 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         self.InventoryTextOutput.setFont(font)
         self.InventoryTextOutput.setObjectName("InventoryTextOutput")
-        self.pushButton = QtWidgets.QPushButton(self.AppPageInventoryTab)
-        self.pushButton.setGeometry(QtCore.QRect(110, 430, 161, 101))
+        self.btnInventoryUpdate = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.btnInventoryUpdate.setGeometry(QtCore.QRect(110, 430, 161, 101))
         font = QtGui.QFont()
         font.setPointSize(20)
-        self.pushButton.setFont(font)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton.setObjectName("pushButton")
+        self.btnInventoryUpdate.setFont(font)
+        self.btnInventoryUpdate.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnInventoryUpdate.setObjectName("btnInventoryUpdate")
         self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
@@ -405,6 +404,8 @@ class Ui_MainWindow(object):
         self.btnLogout.clicked.connect(self.logoutClicked)
         
         self.btnUploadPreview.clicked.connect(self.uploadPreviewClicked)
+        self.btnUploadClear.clicked.connect(self.uploadClearClicked)
+        self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -443,7 +444,7 @@ class Ui_MainWindow(object):
         self.UploadLabel_2.setText(_translate("MainWindow", "Name of Artwork:"))
         self.UploadLabel_3.setText(_translate("MainWindow", "URL of Artwork:"))
         self.UploadArtworkPreviewLabel.setText(_translate("MainWindow", "The selected artwork will be displayed here (scaled)"))
-        self.UploadArtworkNameInput.setPlaceholderText(_translate("MainWindow", "At most 100 characters"))
+        self.UploadArtworkNameInput.setPlaceholderText(_translate("MainWindow", "At most 50 characters"))
         self.UploadArtworkUrlInput.setPlaceholderText(_translate("MainWindow", "Supports .jpg, .jpeg and .png (imgur.com is suggested)"))
         self.btnUploadPreview.setText(_translate("MainWindow", "Preview"))
         self.btnUploadUpload.setText(_translate("MainWindow", "Upload"))
@@ -455,9 +456,9 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Arial\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.pushButton.setText(_translate("MainWindow", "Update"))
+        self.btnInventoryUpdate.setText(_translate("MainWindow", "Update"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
-        
+
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
         
@@ -501,6 +502,8 @@ class Ui_MainWindow(object):
             showAlert("Password must be different from username")
         elif username.upper() == "NULL" or password.upper() == "NULL":
             showAlert("Columns cannot be \"NULL\"")
+        elif " " in username:
+            showAlert("Please don't use space characters in the name")
         else:
             if register(username, password):
                 self.clearAll()
@@ -577,8 +580,11 @@ class Ui_MainWindow(object):
         else:
             showAlert("Image lost")
         image = QImage()
-        image.loadFromData(requests.get(url).content)
-        self.GalleryArtworkLabel.setPixmap(QPixmap(image))
+        try:
+            image.loadFromData(requests.get(url).content)
+            self.GalleryArtworkLabel.setPixmap(QPixmap(image))
+        except:
+            showAlert("Url is broken, failed to load image")
         
     # Sort button in gallery clicked
     def gallerySortClicked(self):
@@ -612,12 +618,12 @@ class Ui_MainWindow(object):
         artworkUrl = self.UploadArtworkUrlInput.text()
         if artworkName == "" or artworkUrl == "":
             showAlert("Columns cannot be empty")
-        elif len(artworkName) > 100:
-            showAlert("Name should not exist 100 characters")
+        elif len(artworkName) > 50:
+            showAlert("Name should not exist 50 characters")
         elif not (artworkUrl.endswith(".jpg") or artworkUrl.endswith(".jpeg") or artworkUrl.endswith(".png")):
             showAlert("Please upload supported file types only")
-        elif artworkName.startswith(" ") or artworkName.endswith(" "):
-            showAlert("Name cannot start with or end with space characters")
+        elif " " in artworkName or " " in artworkUrl:
+            showAlert("Please do not use space characters in the name or url")
         else: # Check if name or url alreadt exists in database
             db = mysql.connector.connect(
             host = "localhost",
@@ -648,6 +654,38 @@ class Ui_MainWindow(object):
                 except:
                     showAlert("Failed to get image from url")
             db.close()
+    
+    def uploadClearClicked(self):
+        self.UploadArtworkNameInput.setText("")
+        self.UploadArtworkUrlInput.setText("")
+        self.btnUploadPreview.setEnabled(True)
+        self.btnUploadUpload.setEnabled(False)
+        self.UploadArtworkNameInput.setEnabled(True)
+        self.UploadArtworkUrlInput.setEnabled(True)
+        self.UploadArtworkPreviewLabel.setText("The selected artwork will be displayed here (scaled)")
+        
+    def uploadUploadClicked(self):
+        artworkName = self.UploadArtworkNameInput.text()
+        artworkUrl = self.UploadArtworkUrlInput.text()
+        toListSuccess = False
+        try:
+            uploadToArtworkListTable(artworkName, artworkUrl)
+            toListSuccess = True
+        except:
+            showAlert("Error when uploading to artwork list")
+        if toListSuccess:
+            try: 
+                showInfo("Click ok to start genereating hash, this will take a moment")
+                uploadToChain_Own(self.currentUser, artworkName, artworkUrl)
+            except:
+                showAlert("Error when uploading to chain")
+        self.uploadClearClicked()
+        self.GalleryArtWrokList.clear()
+        self.loadArtworkList()
+        showInfo("Artwork uploaded")
+    
+    def inventoryUpdataClicked(self):
+        return
 
 if __name__ == "__main__":
     import sys
