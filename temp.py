@@ -6,6 +6,7 @@ from Login import *
 from Reg import *
 from App import *
 from General import *
+from Inventory import *
 
 class Ui_MainWindow(object):
     currentUser = ""
@@ -372,12 +373,19 @@ class Ui_MainWindow(object):
         self.InventoryTextOutput.setFont(font)
         self.InventoryTextOutput.setObjectName("InventoryTextOutput")
         self.btnInventoryUpdate = QtWidgets.QPushButton(self.AppPageInventoryTab)
-        self.btnInventoryUpdate.setGeometry(QtCore.QRect(110, 430, 161, 101))
+        self.btnInventoryUpdate.setGeometry(QtCore.QRect(110, 310, 161, 101))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.btnInventoryUpdate.setFont(font)
         self.btnInventoryUpdate.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnInventoryUpdate.setObjectName("btnInventoryUpdate")
+        self.btnInventoryDownload = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.btnInventoryDownload.setGeometry(QtCore.QRect(50, 470, 281, 101))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnInventoryDownload.setFont(font)
+        self.btnInventoryDownload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnInventoryDownload.setObjectName("btnInventoryDownload")
         self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
@@ -406,6 +414,8 @@ class Ui_MainWindow(object):
         self.btnUploadPreview.clicked.connect(self.uploadPreviewClicked)
         self.btnUploadClear.clicked.connect(self.uploadClearClicked)
         self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
+        
+        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdataClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -457,6 +467,7 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Arial\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.btnInventoryUpdate.setText(_translate("MainWindow", "Update"))
+        self.btnInventoryDownload.setText(_translate("MainWindow", "Download Blockchain"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
 
         self.AppPage.setVisible(False)
@@ -685,7 +696,8 @@ class Ui_MainWindow(object):
         showInfo("Artwork uploaded")
     
     def inventoryUpdataClicked(self):
-        return
+        self.InventoryTextOutput.setText(getOwnedArtworks(self.currentUser))
+
 
 if __name__ == "__main__":
     import sys
