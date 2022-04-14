@@ -719,6 +719,9 @@ class Ui_MainWindow(object):
         self.btnExchangeConstructBlock.setEnabled(True)
         self.btnExchangeAppendToChain.setEnabled(False)
         self.ExchangePreviewBlockOutputTextArea.setText("")
+        self.ExchangeFileNameInput.setEnabled(True)
+        self.ExchangeUsernameInput.setEnabled(True)
+        self.ExchangeConfirmUsernameInput.setEnabled(True)
         
     def exchangeConstructClicked(self):
         artName = self.ExchangeFileNameInput.text()
@@ -746,8 +749,24 @@ class Ui_MainWindow(object):
     def exchangeAppendClicked(self):
         allText = self.ExchangePreviewBlockOutputTextArea.toPlainText()
         currentHash = allText.split("current_hash: ", 1)[1]
+        for line in allText.split("\n"):
+            if "nonce: " in line:
+                nonce = line.split("nonce: ", 1)[1]
+            elif "user_sign: " in line:
+                sign = line.split("user_sign: ", 1)[1]
+            elif "previous_hash: " in line:
+                prevHash = line.split("previous_hash: ", 1)[1]
+            elif "base64_art_hash: " in line:
+                base64Art = line.split("base64_art_hash: ", 1)[1]
         artName = self.ExchangeFileNameInput.text()
         username = self.ExchangeUsernameInput.text()
+        print(sign)
+        try:
+            appendToChain(nonce, prevHash, self.currentUser, sign, artName, base64Art, username, currentHash)
+            self.exchangeClearClicked()
+            showInfo("Artwork sent")
+        except:
+            showAlert("Append failed, someone may have used the same nounce, please press clear and try again")
         
 if __name__ == "__main__":
     import sys

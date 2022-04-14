@@ -86,5 +86,16 @@ def generateBlockPreview(fromUser, toUser, artName):
     outStr = "nonce: " + str(nonce) + "\n\nprevious_hash: " + lastHash + "\n\nuser_name: " + fromUser + "\n\nuser_sign: " + sign + "\n\nart_name: " + artName + "\n\nbase64_art_hash: " + base64Art + "\n\ntran_from_to: " + toUser + "\n\nupload_owner: " + "" + "\n\ncurrent_hash: " + currentHash
     return outStr
 
-def appendToChain():
-    return
+def appendToChain(nonce, prevHash, username, sign, artName, base64Art, toUser, currentHash): # upload_owner col will be empty (col 7)
+    db = mysql.connector.connect(
+    host = "localhost",
+    user = "kelvin",
+    password = "kelvin",
+    database = "3334group"
+    )
+    cur = db.cursor()
+    sql = "INSERT INTO the_chain (nonce, previous_hash, user_name, user_sign, art_name, base64_art_hash, tran_from_to, upload_owner, current_hash) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (nonce, prevHash, username, sign, artName, base64Art, toUser, "", currentHash)
+    cur.execute(sql, val)
+    db.commit()
+    db.close()
