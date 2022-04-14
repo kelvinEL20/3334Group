@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets  import QMessageBox
 import hashlib
+import mysql.connector
 
 def showAlert(msg):
     alert = QMessageBox()
@@ -22,3 +23,22 @@ def isCurrentHashCorrect(tup):
         strForCheck += str(tup[i])
     hashOut = hashlib.sha256(strForCheck.encode('utf-8')).hexdigest()
     return hashOut.startswith("000")
+
+# Check if signature of current block correct
+def isSignCorrect(tup):
+    nonce = str(tup[0])
+    user = tup[2]
+    db = mysql.connector.connect(
+    host = "localhost",
+    user = "kelvin",
+    password = "kelvin",
+    database = "3334group"
+    )
+    cur = db.cursor()
+    sql = "SELECT salt FROM login_table WHERE username = %s"
+    val = (user, )
+    cur.execute(sql, val)
+    salt = str(cur.fetchall()[0][0])
+    key = user + salt
+    forSign = key + nonce
+    return tup[3] == hashlib.sha256(forSign.encode('utf-8')).hexdigest()

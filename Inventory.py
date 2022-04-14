@@ -23,7 +23,13 @@ def getOwnedArtworks(username):
         if nonce > 1 and tup[1] != lastHash:
             showAlert("Error on current chain (Blocks not connected)")
             return
-        if isCurrentHashCorrect(tup) and tup[2] == username:
+        if not isSignCorrect(tup):
+            showAlert("Invalid sign on block number:" + str(nonce))
+            return
+        if not isCurrentHashCorrect(tup):
+            showAlert("Invalid hash on block:" + str(nonce))
+            return
+        if tup[2] == username:
             ownedList.append(str(tup[4]))
         lastHash = tup[8]
         nonce += 1
