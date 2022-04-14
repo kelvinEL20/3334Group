@@ -415,7 +415,8 @@ class Ui_MainWindow(object):
         self.btnUploadClear.clicked.connect(self.uploadClearClicked)
         self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
         
-        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdataClicked)
+        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdateClicked)
+        self.btnInventoryDownload.clicked.connect(self.inventoryDownloadClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -695,8 +696,15 @@ class Ui_MainWindow(object):
         self.loadArtworkList()
         showInfo("Artwork uploaded")
     
-    def inventoryUpdataClicked(self):
+    def inventoryUpdateClicked(self):
         self.InventoryTextOutput.setText(getOwnedArtworks(self.currentUser))
+        
+    def inventoryDownloadClicked(self):
+        try:
+            downloadChain()
+            showInfo("Download succeed")
+        except:
+            showAlert("Failed to download from chain")
 
 if __name__ == "__main__":
     import sys
