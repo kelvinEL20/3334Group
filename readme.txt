@@ -1,4 +1,6 @@
-Usr account for testing:
+.exe file in dist folder
+
+User account for testing:
 1.
 username: user
 pw: user
