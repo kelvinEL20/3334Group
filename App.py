@@ -98,34 +98,3 @@ def uploadToChain_Own(userName, artName, artUrl):
     cur.execute(sql, val)
     db.commit()
     db.close()
-    
-
-# Generate sign from user name and nonce
-def genSign(user, nonce):
-    db = mysql.connector.connect(
-    host = "localhost",
-    user = "kelvin",
-    password = "kelvin",
-    database = "3334group"
-    )
-    cur = db.cursor()
-    sql = "SELECT salt FROM login_table WHERE username = %s"
-    val = (user, )
-    cur.execute(sql, val)
-    salt = str(cur.fetchall()[0][0])
-    key = user + salt
-    forSign = key + str(nonce)
-    db.close()
-    return hashlib.sha256(forSign.encode('utf-8')).hexdigest()
-
-# Calculate hash for current block
-def calHash(nonce, prevHash, userName, sign, artName, bas64Hash, fromTo, owner):
-    nonce = str(nonce)
-    content = nonce + prevHash + userName + sign + artName + bas64Hash + fromTo + owner
-    hashStr = content
-    allChar = string.ascii_letters + string.digits
-    while not hashStr.startswith("000"):
-        ans = ''.join(random.choice(allChar) for i in range(64))
-        hashStr = content + ans
-        hashStr = hashlib.sha256(hashStr.encode('utf-8')).hexdigest()
-    return ans

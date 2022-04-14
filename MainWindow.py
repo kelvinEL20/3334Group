@@ -7,6 +7,7 @@ from Reg import *
 from App import *
 from General import *
 from Inventory import *
+from Exchange import *
 
 class Ui_MainWindow(object):
     currentUser = ""
@@ -419,6 +420,8 @@ class Ui_MainWindow(object):
         self.btnInventoryDownload.clicked.connect(self.inventoryDownloadClicked)
 
         self.btnExchangeClear.clicked.connect(self.exchangeClearClicked)
+        self.btnExchangeConstructBlock.clicked.connect(self.exchangeConstructClicked)
+        self.btnExchangeAppendToChain.clicked.connect(self.exchangeAppendClicked)
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -491,6 +494,7 @@ class Ui_MainWindow(object):
                 self.RegPage.setVisible(False)
                 self.loadArtworkList()
                 self.AppPage.setVisible(True)
+                self.InventoryLabel_1.setText(self.currentUser + "'s artworks:")
             else:
                 showAlert("Username or password incorrect")
             
@@ -715,7 +719,36 @@ class Ui_MainWindow(object):
         self.btnExchangeConstructBlock.setEnabled(True)
         self.btnExchangeAppendToChain.setEnabled(False)
         self.ExchangePreviewBlockOutputTextArea.setText("")
-
+        
+    def exchangeConstructClicked(self):
+        artName = self.ExchangeFileNameInput.text()
+        username = self.ExchangeUsernameInput.text()
+        confirmUsername = self.ExchangeConfirmUsernameInput.text()
+        if username == self.currentUser:
+            showAlert("No need to transfer artwork to yourself")
+            return
+        if username != confirmUsername:
+            showAlert("Username does not match")
+            return
+        if not checkOwnership(artName, self.currentUser):
+            showAlert("Cannot find " + artName + " owned by you")
+            return
+        if not userExist(username):
+            showAlert("User not found")
+            return
+        self.ExchangeFileNameInput.setEnabled(False)
+        self.ExchangeUsernameInput.setEnabled(False)
+        self.ExchangeConfirmUsernameInput.setEnabled(False)
+        self.btnExchangeConstructBlock.setEnabled(False)
+        self.btnExchangeAppendToChain.setEnabled(True)
+        self.ExchangePreviewBlockOutputTextArea.setText(generateBlockPreview(self.currentUser, username, artName))
+        
+    def exchangeAppendClicked(self):
+        allText = self.ExchangePreviewBlockOutputTextArea.toPlainText()
+        currentHash = allText.split("current_hash: ", 1)[1]
+        artName = self.ExchangeFileNameInput.text()
+        username = self.ExchangeUsernameInput.text()
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
