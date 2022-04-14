@@ -35,12 +35,12 @@ UNIQUE (artwork_name)
 CREATE TABLE IF NOT EXISTS the_chain
 (
 nonce INT AUTO_INCREMENT PRIMARY KEY,
-previous_hash varchar(8000),
+previous_hash varchar(64),
 user_name varchar(20),
 user_sign varchar(64),
 art_name varchar(20),
 base64_art_hash varchar(64),
 tran_from_to varchar(100) DEFAULT '',
 upload_owner varchar(75) DEFAULT '',
-current_hash varchar(8000)
+current_hash varchar(64)
 );
