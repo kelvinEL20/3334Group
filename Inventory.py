@@ -7,6 +7,7 @@ from datetime import datetime
 from General import *
 
 def getOwnedArtworks(username):
+    ownDict = {}
     ownedList = []
     db = mysql.connector.connect(
     host = "localhost",
@@ -29,11 +30,16 @@ def getOwnedArtworks(username):
         if not isCurrentHashCorrect(tup):
             showAlert("Invalid hash on block:" + str(nonce))
             return
-        if tup[2] == username:
-            ownedList.append(str(tup[4]))
+        if tup[7] != "": # upload own
+            ownDict[tup[4]] = tup[7]
+        if tup[6] != "": # exchange
+            ownDict[tup[4]] = tup[6]
         lastHash = tup[8]
         nonce += 1
     db.close()
+    for key in ownDict:
+        if ownDict[key] == username:
+            ownedList.append(key)
     return "\n".join(ownedList)
 
 def downloadChain():

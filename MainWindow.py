@@ -760,7 +760,6 @@ class Ui_MainWindow(object):
                 base64Art = line.split("base64_art_hash: ", 1)[1]
         artName = self.ExchangeFileNameInput.text()
         username = self.ExchangeUsernameInput.text()
-        print(sign)
         try:
             appendToChain(nonce, prevHash, self.currentUser, sign, artName, base64Art, username, currentHash)
             self.exchangeClearClicked()
