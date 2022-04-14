@@ -3,6 +3,8 @@ import mysql.connector
 import hashlib
 import requests
 import base64
+import string
+import random
 from datetime import datetime
 from PIL import Image
 from io import BytesIO
@@ -25,7 +27,7 @@ def uploadToArtworkListTable(artName, artUrl):
     db.close()
     
 # Upload ownership of artwork to table the_chain
-def uploadToChain_Own(user, artName, artUrl):
+def uploadToChain_Own(userName, artName, artUrl):
     req = requests.get(artUrl)
     img = Image.open(BytesIO(req.content))
     buffer = BytesIO()
@@ -53,9 +55,23 @@ def uploadToChain_Own(user, artName, artUrl):
     db.close()
     
     # Get salt for key
-    sign = genSign(user, nonce)
+    sign = genSign(userName, nonce)
     
-    # Calculate hash for current block
+    # Calculate hash for curremt_hash col of current block
+    currentHash = calHash(nonce, prevHash, userName, sign, artName, artHash, "", userName)
+    
+    db = mysql.connector.connect(
+    host = "localhost",
+    user = "kelvin",
+    password = "kelvin",
+    database = "3334group"
+    )
+    cur = db.cursor()
+    sql = "INSERT INTO the_chain (previous_hash, user_name, user_sign, art_name, base64_art_hash, tran_from_to, upload_owner, current_hash) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (prevHash, userName, sign, artName, artHash, "", userName, currentHash)
+    cur.execute(sql, val)
+    db.commit()
+    db.close()
     
 
 # Generate sign from user name and nonce
@@ -75,6 +91,18 @@ def genSign(user, nonce):
     forSign = key + str(nonce)
     db.close()
     return hashlib.sha256(forSign.encode('utf-8')).hexdigest()
+
+# Calculate hash for current block
+def calHash(nonce, prevHash, userName, sign, artName, bas64Hash, fromTo, owner):
+    nonce = str(nonce)
+    content = nonce + prevHash + userName + sign + artName + bas64Hash + fromTo + owner
+    hashStr = ""
+    allChar = string.ascii_letters + string.digits
+    while not hashStr.startswith("000"):
+        ans = ''.join(random.choice(allChar) for i in range(64))
+        hashStr = hashStr + ans
+        hashStr = hashlib.sha256(hashStr.encode('utf-8')).hexdigest()
+    return ans
 
 # For testing
 if __name__ == "__main__":

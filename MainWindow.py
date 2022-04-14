@@ -667,8 +667,18 @@ class Ui_MainWindow(object):
     def uploadUploadClicked(self):
         artworkName = self.UploadArtworkNameInput.text()
         artworkUrl = self.UploadArtworkUrlInput.text()
-        uploadToArtworkListTable(artworkName, artworkUrl)
-        uploadToChain_Own(self.currentUser, artworkName, artworkUrl)
+        toListSuccess = False
+        try:
+            uploadToArtworkListTable(artworkName, artworkUrl)
+            toListSuccess = True
+        except:
+            showAlert("Error when uploading to artwork list")
+        if toListSuccess:
+            try: 
+                showInfo("Click ok to start genereating hash, this will take a moment")
+                uploadToChain_Own(self.currentUser, artworkName, artworkUrl)
+            except:
+                showAlert("Error when uploading to chain")
         self.uploadClearClicked()
         self.GalleryArtWrokList.clear()
         self.loadArtworkList()

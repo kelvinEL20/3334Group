@@ -1,3 +1,11 @@
+Usr account for testing:
+1.
+username: user
+pw: user
+2.
+username: user1
+pw: user1
+
 The application need a local database to run.
 Database name: 3334group
 username: kelvin
