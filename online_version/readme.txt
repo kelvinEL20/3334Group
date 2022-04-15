@@ -1,4 +1,4 @@
-.exe file in dist folder
+The .exe file in dist folder
 
 User account for testing:
 1.

@@ -1,6 +1,6 @@
 https://github.com/kelvinEL20/3334Group.git
 The project is private, please contact 18053131d@connect.polyu.hk if you want access
-.exe file in dist folder
+The .exe file is in dist folder
 
 User account for testing:
 1.
