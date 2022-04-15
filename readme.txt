@@ -9,6 +9,7 @@ username: user1
 pw: user1
 
 The application need a local database to run.
+Port: 3306
 Database name: 3334group
 username: kelvin
 password: kelvin
