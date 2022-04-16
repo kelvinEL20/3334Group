@@ -1,4 +1,3 @@
-from turtle import update
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QImage, QPixmap
@@ -6,6 +5,7 @@ import mysql.connector
 import requests
 import sys
 import os
+import string
 from Login import *
 from Reg import *
 from App import *
@@ -647,6 +647,10 @@ class Ui_MainWindow(object):
     def uploadPreviewClicked(self):
         artworkName = self.UploadArtworkNameInput.text()
         artworkUrl = self.UploadArtworkUrlInput.text()
+        validStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
+        if not all(True if x in validStr else False for x in artworkName):
+            showAlert("Please do not use characters beside english characters, numbers and underscores for name")
+            return
         if artworkName == "" or artworkUrl == "":
             showAlert("Columns cannot be empty")
         elif len(artworkName) > 50:

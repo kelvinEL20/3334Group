@@ -5,6 +5,7 @@ import mysql.connector
 import requests
 import sys
 import os
+import string
 from Login_online import *
 from Reg_online import *
 from App_online import *
@@ -646,6 +647,10 @@ class Ui_MainWindow(object):
     def uploadPreviewClicked(self):
         artworkName = self.UploadArtworkNameInput.text()
         artworkUrl = self.UploadArtworkUrlInput.text()
+        validStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
+        if not all(True if x in validStr else False for x in artworkName):
+            showAlert("Please do not use characters beside english characters, numbers and underscores for name")
+            return
         if artworkName == "" or artworkUrl == "":
             showAlert("Columns cannot be empty")
         elif len(artworkName) > 50:
