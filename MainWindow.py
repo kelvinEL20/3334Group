@@ -1,7 +1,11 @@
+from turtle import update
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QImage, QPixmap
 import mysql.connector
 import requests
+import sys
+import os
 from Login import *
 from Reg import *
 from App import *
@@ -387,6 +391,13 @@ class Ui_MainWindow(object):
         self.btnInventoryDownload.setFont(font)
         self.btnInventoryDownload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnInventoryDownload.setObjectName("btnInventoryDownload")
+        self.btnInventoryUpload = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.btnInventoryUpload.setGeometry(QtCore.QRect(50, 590, 281, 101))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnInventoryUpload.setFont(font)
+        self.btnInventoryUpload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnInventoryUpload.setObjectName("btnInventoryUpload")
         self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
@@ -418,11 +429,12 @@ class Ui_MainWindow(object):
         
         self.btnInventoryUpdate.clicked.connect(self.inventoryUpdateClicked)
         self.btnInventoryDownload.clicked.connect(self.inventoryDownloadClicked)
+        self.btnInventoryUpload.clicked.connect(self.inventoryUploadClicked)
 
         self.btnExchangeClear.clicked.connect(self.exchangeClearClicked)
         self.btnExchangeConstructBlock.clicked.connect(self.exchangeConstructClicked)
         self.btnExchangeAppendToChain.clicked.connect(self.exchangeAppendClicked)
-        
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -474,8 +486,9 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.btnInventoryUpdate.setText(_translate("MainWindow", "Update"))
         self.btnInventoryDownload.setText(_translate("MainWindow", "Download Chain"))
+        self.btnInventoryUpload.setText(_translate("MainWindow", "Upload Chain"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
-
+        
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
         
@@ -766,7 +779,28 @@ class Ui_MainWindow(object):
             showInfo("Artwork sent")
         except:
             showAlert("Append failed, someone may have used the same nounce, please press clear and try again")
-        
+            
+    def inventoryUploadClicked(self):
+        file_filter = 'Data File (*.csv)'
+        response = QFileDialog.getOpenFileName(
+            parent=self.centralwidget,
+            caption='Select a csv file',
+            directory=os.getcwd(),
+            filter=file_filter,
+            initialFilter='Data File (*.csv)'
+        )
+        path = response[0]
+
+        try:
+            rows = checkUploadedFile(path)
+            if rows != "": # Blocks are correct
+                info = updateChain(rows)
+                showInfo(info)
+            else:
+                showAlert("Error on uploaded file")
+        except:
+            showAlert("File cannot be read properly")
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

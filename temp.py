@@ -7,6 +7,7 @@ from Reg import *
 from App import *
 from General import *
 from Inventory import *
+from Exchange import *
 
 class Ui_MainWindow(object):
     currentUser = ""
@@ -386,6 +387,13 @@ class Ui_MainWindow(object):
         self.btnInventoryDownload.setFont(font)
         self.btnInventoryDownload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btnInventoryDownload.setObjectName("btnInventoryDownload")
+        self.btnInventoryUpload = QtWidgets.QPushButton(self.AppPageInventoryTab)
+        self.btnInventoryUpload.setGeometry(QtCore.QRect(50, 590, 281, 101))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.btnInventoryUpload.setFont(font)
+        self.btnInventoryUpload.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnInventoryUpload.setObjectName("btnInventoryUpload")
         self.AppPageTab.addTab(self.AppPageInventoryTab, "")
         self.AppPage.raise_()
         self.RegPage.raise_()
@@ -415,7 +423,12 @@ class Ui_MainWindow(object):
         self.btnUploadClear.clicked.connect(self.uploadClearClicked)
         self.btnUploadUpload.clicked.connect(self.uploadUploadClicked)
         
-        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdataClicked)
+        self.btnInventoryUpdate.clicked.connect(self.inventoryUpdateClicked)
+        self.btnInventoryDownload.clicked.connect(self.inventoryDownloadClicked)
+
+        self.btnExchangeClear.clicked.connect(self.exchangeClearClicked)
+        self.btnExchangeConstructBlock.clicked.connect(self.exchangeConstructClicked)
+        self.btnExchangeAppendToChain.clicked.connect(self.exchangeAppendClicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -467,9 +480,10 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Arial\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.btnInventoryUpdate.setText(_translate("MainWindow", "Update"))
-        self.btnInventoryDownload.setText(_translate("MainWindow", "Download Blockchain"))
+        self.btnInventoryDownload.setText(_translate("MainWindow", "Download Chain"))
+        self.btnInventoryUpload.setText(_translate("MainWindow", "Upload Chain"))
         self.AppPageTab.setTabText(self.AppPageTab.indexOf(self.AppPageInventoryTab), _translate("MainWindow", "Inventory"))
-
+        
         self.AppPage.setVisible(False)
         self.RegPage.setVisible(False)
         
@@ -488,6 +502,7 @@ class Ui_MainWindow(object):
                 self.RegPage.setVisible(False)
                 self.loadArtworkList()
                 self.AppPage.setVisible(True)
+                self.InventoryLabel_1.setText(self.currentUser + "'s artworks:")
             else:
                 showAlert("Username or password incorrect")
             
@@ -695,9 +710,70 @@ class Ui_MainWindow(object):
         self.loadArtworkList()
         showInfo("Artwork uploaded")
     
-    def inventoryUpdataClicked(self):
+    def inventoryUpdateClicked(self):
         self.InventoryTextOutput.setText(getOwnedArtworks(self.currentUser))
-
+        
+    def inventoryDownloadClicked(self):
+        try:
+            downloadChain()
+            showInfo("Download succeed")
+        except:
+            showAlert("Failed to download from chain")
+            
+    def exchangeClearClicked(self):
+        self.ExchangeFileNameInput.setText("")
+        self.ExchangeUsernameInput.setText("")
+        self.ExchangeConfirmUsernameInput.setText("")
+        self.btnExchangeConstructBlock.setEnabled(True)
+        self.btnExchangeAppendToChain.setEnabled(False)
+        self.ExchangePreviewBlockOutputTextArea.setText("")
+        self.ExchangeFileNameInput.setEnabled(True)
+        self.ExchangeUsernameInput.setEnabled(True)
+        self.ExchangeConfirmUsernameInput.setEnabled(True)
+        
+    def exchangeConstructClicked(self):
+        artName = self.ExchangeFileNameInput.text()
+        username = self.ExchangeUsernameInput.text()
+        confirmUsername = self.ExchangeConfirmUsernameInput.text()
+        if username == self.currentUser:
+            showAlert("No need to transfer artwork to yourself")
+            return
+        if username != confirmUsername:
+            showAlert("Username does not match")
+            return
+        if not checkOwnership(artName, self.currentUser):
+            showAlert("Cannot find " + artName + " owned by you")
+            return
+        if not userExist(username):
+            showAlert("User not found")
+            return
+        self.ExchangeFileNameInput.setEnabled(False)
+        self.ExchangeUsernameInput.setEnabled(False)
+        self.ExchangeConfirmUsernameInput.setEnabled(False)
+        self.btnExchangeConstructBlock.setEnabled(False)
+        self.btnExchangeAppendToChain.setEnabled(True)
+        self.ExchangePreviewBlockOutputTextArea.setText(generateBlockPreview(self.currentUser, username, artName))
+        
+    def exchangeAppendClicked(self):
+        allText = self.ExchangePreviewBlockOutputTextArea.toPlainText()
+        currentHash = allText.split("current_hash: ", 1)[1]
+        for line in allText.split("\n"):
+            if "nonce: " in line:
+                nonce = line.split("nonce: ", 1)[1]
+            elif "user_sign: " in line:
+                sign = line.split("user_sign: ", 1)[1]
+            elif "previous_hash: " in line:
+                prevHash = line.split("previous_hash: ", 1)[1]
+            elif "base64_art_hash: " in line:
+                base64Art = line.split("base64_art_hash: ", 1)[1]
+        artName = self.ExchangeFileNameInput.text()
+        username = self.ExchangeUsernameInput.text()
+        try:
+            appendToChain(nonce, prevHash, self.currentUser, sign, artName, base64Art, username, currentHash)
+            self.exchangeClearClicked()
+            showInfo("Artwork sent")
+        except:
+            showAlert("Append failed, someone may have used the same nounce, please press clear and try again")
 
 if __name__ == "__main__":
     import sys

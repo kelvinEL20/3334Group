@@ -1093,6 +1093,27 @@ p, li { white-space: pre-wrap; }
         <string>Download Chain</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="btnInventoryUpload">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>590</y>
+         <width>281</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Upload Chain</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
